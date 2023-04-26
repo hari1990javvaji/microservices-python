@@ -1,0 +1,7 @@
+2023-04-25 11:03:40,354 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2023-04-25 11:03:48,347 - app - DEBUG - A debug message
+2023-04-25 11:03:48,348 - app - INFO - An info message
+2023-04-25 11:03:48,348 - app - WARNING - A warning message
+2023-04-25 11:03:48,348 - app - ERROR - An error message
+2023-04-25 11:03:48,348 - app - CRITICAL - A critical message
+2023-04-25 11:03:48,349 - werkzeug - INFO - 127.0.0.1 - - [25/Apr/2023 11:03:48] "GET /logcheck HTTP/1.1" 200 -
