@@ -86,3 +86,24 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply image name changes for version ${{ github.run_number }}
+  notify_status:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check Argo CD sync status
+      run: |
+        # Insert your script here to check the sync status from Argo CD
+        # For example, you can use the Argo CD API to retrieve sync status
+        # Replace the following line with your command
+        echo "Checking sync status from Argo CD"
+        ARGOCD_SERVER="http://a3473a7ebb8fd42b580af92e15d3da6a-375123251.us-east-1.elb.amazonaws.com"
+        ARGOCD_APP_NAME="webappcheck"
+        ARGOCD_TOKEN="${{secrets.ARGOCD_TOKEN}}" 
+        RESPONSE=$(curl -s -k -L -H "Authorization: Bearer $ARGOCD_TOKEN" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}")
+        echo "$RESPONSE"
+        SYNC_STATUS=$(echo "$RESPONSE" | jq -r '.status.sync.status')
+
+    - name: Notify status on GitHub
+      if: ${{ always() }}
+      run: |
+        # Replace this line with a command to post the sync status as a comment on GitHub
+        echo "Sync status of $ARGOCD_APP_NAME: $SYNC_STATUS" # Replace with your status information
