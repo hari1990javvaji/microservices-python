@@ -88,6 +88,7 @@ jobs:
           commit_message: Apply image name changes for version ${{ github.run_number }}
   notify_status:
     runs-on: ubuntu-latest
+    needs: deploy-staging
     steps:
     - name: Check Argo CD sync status
       run: |
@@ -100,9 +101,6 @@ jobs:
         RESPONSE=$(curl -s -k -L -H "Authorization: Bearer ${{ secrets.ARGOCD_TOKEN}}" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}")
         echo "$RESPONSE"
         SYNC_STATUS=$(echo "$RESPONSE" | jq -r '.status.sync.status')
+        echo "Sync status of $ARGOCD_APP_NAME: $SYNC_STATUS"
 
-    - name: Notify status on GitHub
-      if: ${{ always() }}
-      run: |
-        # Replace this line with a command to post the sync status as a comment on GitHub
-        echo "Sync status of $ARGOCD_APP_NAME: $SYNC_STATUS" # Replace with your status information
+    
