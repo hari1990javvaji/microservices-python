@@ -4,17 +4,17 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: dockerregistrykey
-  namespace: webappcheck
+  namespace: dbtest
 type: kubernetes.io/dockerconfigjson
 data:
-  .dockerconfigjson: eyJhdXRocyI6eyJodWIuZG9ja2VyLmNvbSI6eyJ1c2VybmFtZSI6ImhqYXZ2YWppIiwicGFzc3dvcmQiOiJkdW1teSIsImVtYWlsIjoiaGtpc2hvcmU0MkBnbWFpbC5jb20iLCJhdXRoIjoiYUdwaGRuWmhhbWs2WkhWdGJYaz0ifX19
+  .dockerconfigjson: eyJhdXRocyI6eyJodWIuZG9ja2VyLmNvbSI6eyJ1c2VybmFtZSI6ImhqYXZ2YWppIiwicGFzc3dvcmQiOiJraXNob3JlaGFyaSIsImVtYWlsIjoiaGtpc2hvcmU0MkBnbWFpbC5jb20iLCJhdXRoIjoiYUdwaGRuWmhhbWs2YTJsemFHOXlaV2hoY21rPSJ9fX0=
 ---
 # Source: webapp/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: webapp
-  namespace: webappcheck
+  namespace: dbtest
   labels:
     helm.sh/chart: webapp-0.1.0
     app.kubernetes.io/name: webapp
@@ -38,7 +38,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp
-  namespace: webappcheck
+  namespace: dbtest
   labels:
     helm.sh/chart: webapp-0.1.0
     app.kubernetes.io/name: webapp
@@ -61,9 +61,16 @@ spec:
     spec:
       containers:
         - name: webapp
-          image: "hjavvaji/webapp:1.0"
+          image: "hjavvaji/webapp:8"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 5000
               protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
