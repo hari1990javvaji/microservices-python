@@ -98,9 +98,10 @@ jobs:
         echo "Checking sync status from Argo CD"
         ARGOCD_SERVER="http://a3473a7ebb8fd42b580af92e15d3da6a-375123251.us-east-1.elb.amazonaws.com"
         ARGOCD_APP_NAME="webappcheck"
-        ARGOCD_TOKEN="${{ secrets.ARGOCD_TOKEN}}"
-        echo "curl -s -k -L -H \"Authorization: Bearer $ARGOCD_TOKEN\" \"${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}\" "
-        RESPONSE=$(curl -s -k -L -H "Authorization: Bearer ${ARGOCD_TOKEN}" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}")
+        
+        token=$(curl -sk -X POST ${ARGOCD_SERVER}/api/v1/session  -d $'{"username":"'$ARGO_LOGIN_USERNAME'","password": "'$ARGO_LOGIN_PASSWORD'"}'|jq -r .token)
+        echo "curl -s -k -L -H \"Authorization: Bearer $token\" \"${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}\" "
+        RESPONSE=$(curl -s -k -L -H "Authorization: Bearer $token" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}")
         echo "$RESPONSE"
         SYNC_STATUS=$(echo "$RESPONSE" | jq -r '.status.sync.status')
         echo "Sync status of $ARGOCD_APP_NAME: $SYNC_STATUS"
