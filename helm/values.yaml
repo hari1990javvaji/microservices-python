@@ -7,7 +7,7 @@ image:
   repository: hjavvaji
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "9"
+  tag: "10"
   name: hjavvaji/webapp
 imagePullSecrets: []
 nameOverride: ""
@@ -70,7 +70,6 @@ resources:
   limits:
     cpu: "500m"
     memory: "128Mi"
-
 autoscaling:
   enabled: false
   minReplicas: 1
