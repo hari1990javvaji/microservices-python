@@ -100,6 +100,7 @@ jobs:
         ARGOCD_APP_NAME="webappcheck"
         
         token=$(curl -sk -L -X POST ${ARGOCD_SERVER}/api/v1/session  -d $'{"username":"'$ARGO_LOGIN_USERNAME'","password": "'$ARGO_LOGIN_PASSWORD'"}'|jq -r .token)
+        echo $token
         curl -s -v -k -L -H "Authorization: Bearer $token" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}"
         SYNC_STATUS=$(curl -s -v -k -L -H "Authorization: Bearer $token" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}"| jq -r '.status.sync.status')                                        
         echo "Sync status of $ARGOCD_APP_NAME: $SYNC_STATUS"
