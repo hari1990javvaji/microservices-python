@@ -105,5 +105,3 @@ jobs:
         #curl -s -v -k -L -H "Authorization: Bearer $token" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}"
         SYNC_STATUS=$(curl -s -v -k -L -H "Authorization: Bearer $token" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}"| jq -r '.status.sync.status')                                        
         echo "Sync status of $ARGOCD_APP_NAME: $SYNC_STATUS"
-
-    
