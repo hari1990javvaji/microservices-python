@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: webapp
-          image: hjavvaji/webapp:8
+          image: hjavvaji/webapp:9
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
