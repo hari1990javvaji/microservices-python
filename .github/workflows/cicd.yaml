@@ -96,14 +96,11 @@ jobs:
         # For example, you can use the Argo CD API to retrieve sync status
         # Replace the following line with your command
         echo "Checking sync status from Argo CD"
-        ARGOCD_SERVER="http://a3473a7ebb8fd42b580af92e15d3da6a-375123251.us-east-1.elb.amazonaws.com"
+        ARGOCD_SERVER="https://a3473a7ebb8fd42b580af92e15d3da6a-375123251.us-east-1.elb.amazonaws.com"
         ARGOCD_APP_NAME="webappcheck"
         
         token=$(curl -sk -X POST ${ARGOCD_SERVER}/api/v1/session  -d $'{"username":"'$ARGO_LOGIN_USERNAME'","password": "'$ARGO_LOGIN_PASSWORD'"}'|jq -r .token)
-        echo $token 
-        curl -s -v -k -L -H "Authorization: Bearer $token" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}"
-        echo "$RESPONSE"
-        SYNC_STATUS=$(echo "$RESPONSE" | jq -r '.status.sync.status')
+        SYNC_STATUS=$(curl -s -v -k -L -H "Authorization: Bearer $token" "${ARGOCD_SERVER}/api/v1/applications/${ARGOCD_APP_NAME}"| jq -r '.status.sync.status')                                        
         echo "Sync status of $ARGOCD_APP_NAME: $SYNC_STATUS"
 
     
