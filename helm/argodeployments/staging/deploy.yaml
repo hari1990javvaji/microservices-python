@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: webapp
-          image: "hjavvaji/webapp:16"
+          image: "hjavvaji/webapp:17"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
